@@ -2,72 +2,94 @@ pragma solidity >=0.4.22 <0.7.0;
 
 /**
  * @title Vault
- */
+ * @def
+*/
 contract Vault {
-    address[] public derivatives;
     address owner;
-    map (uint256 => address);
-    address[] public oracles;
+    address[] public derivatives;
     mapping (address => address[]) public userDerivatives;
-    mapping (address => bool) public acceptedCollateralTokens;
     uint256 public vaultFee;
-    mapping(orachuint256 contractBalances;
+    uint256 accumulatedVaultFees;
+    bool isActive;
+    //mapping(address => uint256) contractBalances;
+    //mapping (address => bool) public acceptedCollateralTokens;
 
-    // check that money is transferred to the  //check that it is from the correct contract (receives the tokens)
-    function issueDerivative(address derivativeAddress) public returns (bool) {
-        // call external function derivative.issueDerivative for money
-        // success = call deriative function to mint shorts + longs, send money to derivative,
-        ///take vaultFee as a percentage of the amount that are created
+    //modifiers
+
+    //onlyOwner 
+    modifier onlyOwner { require(msg.sender == this.owner, "Function can only be run by the owner of this contract.");
+        _;
+    }
+
+    //notPaused
+    modifier notPaused { require(this.isActive, "Contract must not be paused.");
+        _;
+    }
+
+    //notActive
+    modifier notActive { require(this.isActive == false, "Contract must not be active.");
+        _;
+    }
+
+
+    constructor(uint256 vaultFee) {
+      super()
+      this.vaultFee = fee
+      this.isActive = true;
+      //init everything else
+    }
+
+    function issueDerivative(address derivative, uint256 amount) public external returns (bool) notPaused holdDerivate {
+      if (this.collectFee(msg.sender, amount)) {
+        derivative.issueDerivative(msg.sender, amount)
         return true
+      }
+      return false
     }
 
-    // function updateDerivative(address derivativeAddress) public {
-    //     //for timestamps in derivatives {
-    //         //if timestamp/block number fits then update {
-    //             //get derivative address and call update
-    //             //then call the derivative update function
-    //         }
-    //     }
-    // }
-
-    //(check that it is in collateral)
-    function receiveTokens() {
-
+    function collectFee(address from, uint256 amount) public returns (bool) {
+      fee = this.calculateFee(amount)
+      successful = receive(this.baseAssetContract, from, this, amount)
+      return true
     }
 
-    // function withdraw(uint256 amount) private onlyOwner {
-    //     //check that the amount is there
-    //     //subtract the amount
-    //     //transfer the amount from the erc20 contract
-    // }
-
-    function settleDerivative(interface position, address account) public {
-        uint256 nextPrice = getAssetPrice(position.derivativeProductAddress); //call function from derivative asset
-        position. //cast position to Position
-        bytes[] owed = (position.short - position.long) * nextPrice
-        //subtract assets
-        //remove position
-        //check account has enough money
-        accounts[account] -= owed
+    function calcuateFee(uint256 amount) public returns (uint256 amount) {
+      return (this.vaultFee * amount)
     }
 
+  function updateVaultFee(uint256 newFee) onlyOwner returns (bool) onlyOwner notActive {
+      this.vaultFee = newFee
+  }
+
+  function withdrawFees(uint256 amount) public external onlyOwner {
+       if (this.accumulatedVaultFees >= amount) {
+         this.baseAsset.transferFrom(contract, this, this.owner, amount)
+         this.accumulatedVaultFees -= amount
+       }
+     }
+  }
+
+    function receive(address contract, address from, address derivative, uint256 amount) private external returns (bool) {
+    contract.transferFrom(this, derivative, amount)
+    }
+
+    function accountWithdrawal(address derivative, uint256 amount) public external {
+      derivative.accountWithdrawal(amount)
+    }
+
+    function accountDeposit(uint256 amount) public external {
+      derivative.accountDeposit(amount)
+    }
 
     function addDerivative(address derivativeAddress) public onlyOwner {
-        assets[derivativeAddress] = true
+        this.assets[derivativeAddress] = true
     }
 
-    function removeDerivative(address derivativeAddress) public onlyOwner{
-        assets[derivativeAddress] = false
+    function removeDerivative(address derivativeAddress) public onlyOwner {
+        this.assets[derivativeAddress] = false
     }
-
-    // function getUserPositions() returns (bool) {
-    //     Position[] userPositions; // get user positions
-    //     //return Position[]
-    // }
 
     function getDerivatives() public returns (address[]) {
         return this.derivatives
     }
-
-
 }

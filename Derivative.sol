@@ -20,15 +20,12 @@ contract Derivative {
     uint256 assetPrice;
     address oracleAddress;
 
+    enum DerivativeState { SETTLING, TRADING, ISSUING }
+    uint256 timestamp;
 
-    uint256 offset; //something mod the entire duration
-    uint256 timestampUpdate;
-    uint256 issuingDuration;
-    uint256 activeDuration;
+    uint256 issuingDuration; //seconds
+    uint256 tradingDuration;
     uint256 settlingDuration;
-
-
-    uint256 nextTimeStamp;
 
         //modifiers
 
@@ -37,51 +34,54 @@ contract Derivative {
             _;
         }
 
-        //
-        //contract is active/not paused or in stages
-        modifier onlySettling { require(0 == 0, "." );
-        _;
-      }
+        modifier isSettling { require(this.State == DerivativeState.SETTLING, "Must be settling." );
+          _;
+        }
 
+        modifier isIssuing { require(this.State == DerivativeState.ISSUING, "Must be issuing." );
+          _;
+        }
 
+        modifier isTrading { require(this.State == DerivativeState.TRADING , "Must be trading to run this function."); _;  }
 
-    modifier onlyIssuing {
-    require(
-            0 == 0,
-            "."
-        );
-        _;
-    }
-
-    modifier isSettled { require(0 == 0, "."); _;  }
+        modifier stateEnded { require(this.timeStamp <= block.timeStamp, "State must have completed." )}
 
       /**
      * @dev Create a new derivative for an asset and range
      * @param {probability, settlementTime,
      */
 constructor(bytes[] memory derivativeAssetData) public {
-      super()
-      this.vaultFee = 100
-      this.oracle = "" //does this need to be created?
-      this.name = ""
-      this.symbol = ""
+      vaultFee = 100
+      oracle = "" //does this need to be created?
+      baseAsset = 0xdac17f958d2ee523a2206206994597c13d831ec7
+      name = ""
+      symbol = ""
+      tradingDuration = 1
+      issuingDuration = 1
+      settlingDuration = 1
   }
 
-function transitionDerivativeState() {
-           blockstamp = 4
-           if (this.State == Active && blockstamp <= this.activeCutoff) {
-               this.State = Settling
-               this.isSettled = this.settleAllPositions()
-               this.lastTimeStamp = blockstamp
+function derivativeStateTransition() public {
+          let newState := this.State
+          switch this.State
+            case DerivativeState.ISSUING {
+              newState = DerivativeState.TRADING
+              this.assetPrice
+              this.timeStamp = block.timeStamp + this.tradingDuration
            }
 
-           if (this.State == Settling && this.isSettled && it is the correct timestamp) {
-                   this.State = Issuing
-           }
+            case DerivativeState.TRADING {
+              newState = DerivativeState.SETTLING
+              this.timeStamp = block.timeStamp +  this.settlingDuration
+            }
 
-           if (this.State == Issuing && it is the correct timestamp) {
-                   this.State = Active
-           }
+            case DerivativeState.SETTLING {
+              let isSettled := this.settleAllPositions()
+              if (isSettled) {
+                newState = DerivativeState.ISSUING
+                this.timeStamp = block.timeStamp + this.issuingDuration
+              }
+            }
 }
 
 
@@ -94,7 +94,7 @@ function receive(address contract, address from, uint256 amount) private externa
 }
 
 function issueDerivative(address purchaser, uint256 amount) public onlyIssuing {
-        amountAsset = amount/this.getPrice()
+        let amountAsset := amount/this.getPrice()
         this.shorts[user] += amountAsset
         this.userLongs[user] += amountAsset
 }
@@ -107,16 +107,16 @@ function settleAllPositions() public onlyActive onlyOnEnd (bool) {
     return true
 }
 
-function settle(address user) private {
-        userLongs = this.longs[user]
-        userShorts = this.shorts[user]
-        change = (userLongs - userShorts)*this.getPrice()
+    function settle(address user) private {
+        let userLongs := this.longs[user]
+        let userShorts := this.shorts[user]
+        let change := (userLongs - userShorts)*this.getPrice()
         this.longs[user] = 0
         this.shorts[user] = 0
         this.totalLong -= userLongs
         this.totalShort -= userShorts
         this.balances[user] += change
-}
+   }
 
    function isSafeTransfer(address sender, address receiver, uint256 shorts, uint256 longs) public (bool) {
      if (this.longs[sender] >= longs && this.shorts[sender] >= shorts) {
@@ -181,11 +181,10 @@ function settle(address user) private {
     function setPrice(uint256 newPrice) {
         this.price = newPrice
     }
-    //hmmmm
+
     function getPrice() public returns (uint256) {
         return this.price
     }
-    
 
     function updateExposure(address user) public {
         this.exposure[user] = calculateExposure(this.longs[user], this.shorts[user], this.getPrice())

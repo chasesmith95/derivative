@@ -1,0 +1,22 @@
+{
+  "name": "derivative",
+  "version": "1.0.0",
+  "description": "This set of smart contracts facilitates the creation of a mixture of short and long positions for any asset.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chasesmith95/derivative.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chasesmith95/derivative/issues"
+  },
+  "homepage": "https://github.com/chasesmith95/derivative#readme",
+  "dependencies": {
+    "@chainlink/contracts": "0.0.3"
+  }
+}

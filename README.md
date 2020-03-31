@@ -11,11 +11,13 @@ Builds and deploys a Vault contract given the oracle address, the payout contrac
 ## Vault
 The Vault acts as the facilitator and organizer of derivative contracts, it can also create derivatives, and add them to its list of derivatives.The derivative contract is modeled on the ERC20 contract (with the same functionality). The derivative uses a price oracle to establish pricing.
 
+
+
 ### Instance Variables
 - Name
 - Collateral Asset
-- Oracle Contract Address
-- Payout Contract Address
+- Oracle Contract Address*
+- Payout Contract Address*
 - Time Interval [preissuance start time, issuance time, settlement time]
 - shorts => ERC20 Contract Address
 - longs => ERC20 Contract Address

@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/chasesmith95/derivative#readme",
   "dependencies": {
-    "@chainlink/contracts": "0.0.3"
+    "@chainlink/contracts": "0.0.3",
+    "solidity-docgen": "^0.4.1",
+    "truffle": "^5.1.20"
   }
 }

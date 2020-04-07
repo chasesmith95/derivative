@@ -1,263 +1,207 @@
 pragma solidity >=0.4.22 <0.7.0;
-
-/**
- * @title Storage
- * @dev Store & retreive value in a variable
- */
- contract VaultBuilder {
-   constructor() {}
-   function makeVault(address referenceDataAddress) public returns (uint256) {
-     let oracle = new Vault(referenceDataAddress);
-     return vault
-   }
- }
+//pragma solidity ^0.4.2;
+import "./Oracle.sol";
+import "./DerivativeToken.sol";
+import "./PayoutContract.sol";
+import "./lib/ABDKMath64x64.sol";
+import "github.com/Arachnid/solidity-stringutils/strings.sol";
 
 contract Vault {
-    enum VaultState { SETTLING, TRADING, ISSUING };
+    using strings for *;
+    enum VaultState { SETTLING, TRADING, ISSUING }
 
     string name;
     string symbol;
+    //
     address oracle;
     address payoutContract;
     address baseCollateralAsset; //0xdac17f958d2ee523a2206206994597c13d831ec7
-    uint256 vaultIssuanceFee;
+    int256 vaultIssuanceFee;
 
-    uint256 activationTime; //seconds
+
+    //uint256 activationTime; //seconds
+    //    uint256 preIssuanceDuration;
+      //uint256 issuanceDuration;
+        //bool isRepeating;
+
+
     uint256 issuanceTime;
     uint256 settlementTime;
-    uint256 issuanceDuration;
-    uint256 preIssuanceDuration;
-    bool isRepeating;
 
-    uint256 conversionRatio;
+    address shortToken;
+    address longToken;
+
     uint256 totalCollateral;
 
-    uint256 startingPrice; //U0
-    uint256 startingCollateralPrice; //S0
-    uint256 startingWeight; //W0
+    uint256 assetIssuancePrice; //U0
+    uint256 collateralIssuancePrice; //S0
+    int256 issuanceWeight; //W0
 
-    uint256 endingPrice; //UT
-    uint256 endingCollateralPrice; //ST
-    uint256 finalWeight; //WT
+    uint256 assetSettlementPrice; //UT
+    uint256 collateralSettlementPrice; //ST
+    int256 settlementWeight; //WT
 
-
-
-        //modifiers
-        modifier onlyOwner { require(msg.sender == this.owner, "Function can only be run by the owner of this contract.");
-            _;
-        }
-        modifier onlyActivated { require(this.state == VaultState.ACTIVATED, "Must be in the activated state." );
+      //modifiers
+      modifier onlyOwner { require(msg.sender == this.owner, "Function can only be run by the owner of this contract.");
           _;
-        }
-        modifier onlyIssued { require(this.state == VaultState.ISSUED, "Must be in the issued state." );
-          _;
-        }
-        modifier onlySettled { require(this.state == VaultState.SETTLED , "Must be settled."); _;  }
-        modifier notSettled { require(this.state != VaultState.SETTLED , "Must not be settled."); _;  }
+      }
+
+      modifier onlyActivated { require(this.state == VaultState.ACTIVATED, "Must be in the activated state." );
+        _;
+      }
+      modifier onlyIssued { require(this.state == VaultState.ISSUED, "Must be in the issued state." );
+        _;
+      }
+      modifier onlySettled { require(this.state == VaultState.SETTLED , "Must be settled."); _;  }
+      modifier notSettled { require(this.state != VaultState.SETTLED , "Must not be settled."); _;  }
+
+
+
+    //events
+      event VaultActivated(address vault, string name, uint256 creationFee);
+      event VaultIssued(address vault, uint256 assetPrice, uint256 collateralPrice, uint256 weight);
+      event VaultSettled(address vault, uint256 assetPrice, uint256 collateralPrice, uint256 weight);
+
+      event DerivativeSettled(address account, address contractAddress, uint256 amount, uint256 settlementAmount);
+      event DerivativePurchased(address account, uint256 amount, uint256 settlementAmount);
+
 
       /**
      * @dev Create a new derivative for an asset and range
      * @param {probability, settlementTime,
      */
-constructor(bytes[] memory derivativeAssetData) public {
-      super();
-      name = "";
-      symbol = "";
-      oracle = "" ;//does this need to be created?
-      vaultIssuanceFee = 100;
-      baseAsset = 0xdac17f958d2ee523a2206206994597c13d831ec7;
-
-      uint256 activationTime; //seconds
-      uint256 issuanceTime;
-      uint256 settlementTime;
-      uint256 duration;
-      isRepeating = true;
+constructor(string _name, string _symbol, address _oracle, address _payoutContract, int256 _issuanceWeight, address _collateralToken, uint256 _issuanceTime, uint256 _settlementTime, int256 _vaultIssuanceFee) public {
+      name = _name;
+      symbol = _symbol;
+      oracle = _oracle;
+      payoutContract = _payoutContract;
+      issuanceWeight = _issuanceWeight;
+      collateralToken = _collateralToken;
+      issuanceTime = _issuanceTime;
+      settlementTime = _settlementTime;
+      vaultIssuanceFee = _vaultIssuanceFee;
+      this.update();
   }
 
-  function updateVaultState() public {
-    oldVault = this.state
-    this.setVaultState(this.calculateVaultState())
-    if (oldVaultState != this.state) {
-      this.vaultStateTransition(this.state)
-    }
-  }
-
-  function vaultStateTransition(VaultState state) internal {
-    if (state == VaultState.ACTIVATED) {
+  function update() public {
+    if (block.timestamp <= this.IssuanceTime) {
       this.activate();
-    } else if (state == VaultState.ISSUED) {
+    } else if (block.timestamp <= this.SettlementTime) {
       this.issue();
     } else {
       this.settle();
     }
   }
 
-  function calculateVaultState() public returns (State state) {
-    if (block.timestamp <= this.IssuanceTime) {
-      this.state = VaultState.ACTIVATED
-    } else if (block.timestamp <= this.SettlementTime) {
-      this.state = VaultState.ISSUED
-    } else {
-      this.state = VaultState.SETTLED
+  function activate() notActive {
+    this.state = VaultState.ACTIVATED;
+    this.longToken = new DerivativeToken(this.name.concat("-long"), this.symbol.concat("-l"));
+    this.shortToken = new DerivativeToken(this.name.concat("-short"), this.symbol.concat("-s"));
+    emit VaultActivated(this, this.name, this.symbol, this.issuanceTime);
+  }
+
+    function purchaseDerivatives(uint256 amount) public external onlyActivated {
+      this.receive(this.collateralToken, msg.sender, amount);
+      uint256 newAmount = this.collectFees(amount);
+      this.totalCollateral += newAmount;
+      this.shortToken.mint(purchaser, newAmount);
+      this.longToken.mint(purchaser, newAmount);
+      emit DerivativePurchased(msg.sender, amount, newAmount);
     }
-    return this.state;
-  }
 
-  function setVaultState(VaultState state) internal {
-    return this.vaultState = state
-  }
-
-  function getVaultState() public view {
-    return this.state
-  }
-
-  function activate() internal {
-    //mint the erc20 contracts
-    //
-  }
-
-  function purchaseDerivatives(uint256 amount) public onlyCreated {
-    this.receiveCollateral(msg.sender, amount);
-    issuanceAmount = this.amount * this.conversionRatio;
-    this.issueDerivatives(msg.sender, issuanceAmount);
-  }
-
-  function issueDerivatives(address purchaser, uint256 amount) internal onlyCreated {
-          this.shortToken.mint(purchaser, amount);
-          this.longToken.mint(purchaser, amount);
-  }
-
-  function receiveCollateral(address sender, uint256 amount) internal {
-    this.receive(this.collateralToken, sender, amount);
-  }
-
-  function sendCollateral(address recipicient, uint256 amount) {
-    this.send(this.collateralToken, recipicient, amount);
-  }
-
-  function receive(address contract, address from, uint256 amount) private external {
-    require(myToken.allowance(msg.sender, this) > 0);
-    uint tokenAmount = myToken.allowance(msg.sender, this);
-    require(myToken.transferFrom(msg.sender, this, tokenAmount));
-    msg.sender.transfer(getRate(tokenAmount));
-    this.totalCollateral += amount;
-  }
-
-  function send(address contract, address recipicient, uint256 amount) private external {
-       require(amount >= this.totalCollateral);
-       this.totalCollateral -= amount;
-       this.contract.transferFrom(this, recipicient, amount);
-  }
-
-  function issue() {
-    uint256 issuanceCollateralPrice = this.getCollateralPrice(this.issuanceTime)
-    uint256 issuanceAssetPrice = this.getAssetPrice(this.issuanceTime);
-    uint256 issuanceWeight;
-    this.setIssuancePrice(issuancePrice);
-    this.setIssuanceWeight(issuanceWeight);
-  }
-
-  function getIssuanceWeight() public returns (uint256) {
-    return this.issuanceWeight
-  }
-
-  function setIssuancePrice() internal {
-    this.issuancePrice = this.getOraclePrice(this.issuanceTime)
-  }
-
-  function getIssuancePrice() hasIssued public {
-    return this.issuancePrice
-  }
-
-  function settle() {
-    settlementCollateralPrice = this.getCollateralPrice(this.issuanceTime)
-    settlementAssetPrice = this.getAssetPrice(this.issuanceTime);
-    settlementWeight = this.calculateSettlementWeight();  // float
-    this.setSettlmentAssetPrice(settlementAssetPrice);
-    this.setSettlmentCollateralPrice(settlementCollateralPrice)
-    this.setSettlementWeight(settlementWeight);
-    if (this.isRepeating) {
-      this.repeat();
+    function receive(address contractAddress, address from, uint256 amount) {
+      require(contractAddress.allowance(from, this) >= amount);
+      require(contractAddress.transferFrom(from, this, amount));
     }
+
+    function send(address contractAddress, address recipicient, uint256 amount) {
+         this.contractAddress.transferFrom(this, recipicient, amount);
+    }
+
+  function collectFees(amount) returns (uint256) {
+    uint256 fees = this.calculateVaultFees(amount);
+    this.accumulatedVaultFees += fees;
+    return amount - fees;
   }
 
-  function repeat() {
-    //create new Vault...
+  function calculateVaultFees(uint256 amount) public returns (uint256) {
+    return ABDKMath64x64.mulu(this.vaultIssuanceFee, amount);
   }
 
-  function setIsRepeating(bool repeats) {
-    this.isRepeating = repeats;
+  function withdrawVaultFees(uint256 amount) public onlyOwner {
+    require(amount <= this.accumulatedVaultFees);
+    this.collateralToken.transferFrom(this, this.owner, amount);
+    this.accumulatedVaultFees -= amount;
   }
 
-  function getIsRepeating() returns (bool) {
-    return this.isRepeating;
+  function issue() notIssued {
+    this.state = VaultState.ISSUED;
+    this.collateralIssuancePrice = this.fetchCollateralPrice(this.issuanceTime);
+    this.assetIssuancePrice = this.fetchAssetPrice(this.issuanceTime);
+    emit VaultIssued(this, this.assetIssuancePrice, this.collateralIssuancePrice, this.issuanceWeight);
   }
 
-
- function settleAccount() public onlySettled {
-   this.settleContract(this.shortAddress, msg.sender);
-   this.settleContract(this.longAddress, msg.sender);
- }
-
- function settleContract(address contract, address user) {
-   balance = 0; //get the max approved transfer ...
-   this.settleContract(contract, user, balance);
- }
-
- function settleContract(address contractAddress, address user, uint256 amount) {
-   this.receive(contractAddress, user, amount);
-   weight = this.getSettlementWeight();
-   payoffAmount = this.calculatePayoff(weight, amount);
-   this.sendCollateral(user, collateralAmount);
- }
-
-function calculatePayoff(float weight, uint256 amount) returns (uint256) {
-  return (amount*weight)/this.conversionRatio;
-}
-
-function setSettlementWeight(uint256 weight) internal {
-  this.settlementWeight = this.calculateSettlementWeights();
-}
-
-function getSettlementWeight() internal {
-  return this.settlementWeight
-}
-
-function calculateSettlementWeight() public returns (uint256) {
-  return this.payoutContract.calculateWeights(this.issuanceWeight, this.issuanceAssetPrice, this.settlementPrice, this.issuanceCollateralPrice, this.settlementCollateralPrice)
-}
-
-function setSettlmentPrice(uint256 price) internal {
-  this.finalPrice = price
-}
-
-function getSettlementPrice() hasSettled public {
-  return this.settlementPrice;
-}
-
-function fetchAssetPrice(uint256 timestamp) returns (uint256) {
-  return this.getPriceFromOracle(this.assetOracle, timestamp);
-}
-
-function fetchCollateralPrice(uint256 timeStamp)  returns (uint256) {
-  return this.getPriceFromOracle(this.collateralOracle, timestamp);
-}
-
-function fetchPriceFromOracle(address oracle, uint256 timestamp) public external returns (uint256){
-  price = 0
-  oracleTimeStamp = this.oracle.getLatestTimestamp()
-  if (oracleTimeStamp === this.timeStamp) {
-    updatedPrice = this.oracle.getLatestAnswer()
+  function fetchAssetPrice(uint256 timestamp) public external returns (uint256) {
+    return this.getPrice(this.assetOracle, timestamp);
   }
-  if (oracleTimeStamp > this.timestamp) {
-    back = oracleTimeStamp - this.timestamp
-    updatedPrice = this.oracle.getPreviousAnswer(back)
+
+  function fetchCollateralPrice(uint256 timeStamp) public external returns (uint256) {
+    return this.getPrice(this.collateralOracle, timestamp);
+  }
+
+  function fetchPrice(address oracle, uint256 timestamp) returns (uint256){
+    uint256 price = 0;
+    uint256 oracleTimeStamp = this.oracle.getLatestTimestamp()
+    if (oracleTimeStamp === this.timeStamp) {
+      price = this.oracle.getLatestAnswer()
+    }
+    if (oracleTimeStamp > this.timestamp) {
+      uint256 back = oracleTimeStamp - this.timestamp
+      price = this.oracle.getPreviousAnswer(back)
+    }
+    return price;
+  }
+
+  function settle() notSettled {
+    this.state = VaultState.SETTLED;
+    this.collateralSettlementPrice = this.getCollateralPrice(this.issuanceTime);
+    this.assetSettlementPrice = this.getAssetPrice(this.issuanceTime);
+    this.settlementWeight = this.calculateSettlementWeight();
+    emit VaultSettled(this, this.assetSettlementPrice, this.collateralSettlementPrice, this.settlementWeight);
+  }
+
+  function settleAccount() public external onlySettled {
+    this.settle(this.shortAddress, msg.sender, this.shortAddress.balanceOf(msg.sender));
+    this.settle(this.longAddress, msg.sender, this.shortAddress.balanceOf(msg.sender));
+  }
+
+  function settle(address contractAddress, address user, uint256 amount) onlySettled public external {
+    this.receive(contractAddress, user, amount);
+    uint256 settlementAmount = this.getSettlementAmount(contractAddress, amount);
+    require(settlementAmount >= this.totalCollateral);
+    this.totalCollateral -= settlementAmount;
+    this.send(this.collateralToken, user, settlementAmount);
+    emit DerivativeSettled(user, contractAddress, amount, settlementAmount);
+  }
+
+function getSettlementAmount(address contractAddress, uint256 amount) public returns (uint256) onlySettled {
+  int256 weight = this.getSettlementWeight(contractAddress);
+  return ABDKMath64x64.mulu(weight, amount);
+}
+
+function getSettlementWeight(address contractAddress) public returns (int256) {
+  if (contractAddress == this.longToken) {
+    return this.settlementWeight;
+  } else {
+    return ABDKMath64x64.sub(ABDKMath64x64.fromInt(1), this.settlementWeight);
   }
 }
-return price;
+
+function calculateSettlementWeight() public external returns (int256) {
+  int256 normalizedAssetChange = this.payoutContract.normalizedChange(this.assetPrice, this.settlementPrice);
+  int256 normalizedCollateralChange = this.payoutContract.normalizedChange(this.collateralIssuancePrice, this.collateralSettlementPrice);
+  return this.payoutContract.calculateWeight(this.issuanceWeight, normalizedAssetChange, normalizedCollateralChange);
 }
 
-function withdrawVaultFees(uint256 amount) public onlyOwner {
-  require(amount <= this.accumulatedVaultFees);
-  this.baseAssetContract.transferFrom(this, this.owner, amount)
+
 }

@@ -1,21 +1,22 @@
-pragma solidity ^0.4.24;
+pragma solidity >=0.4.22 <0.7.0;
+//pragma solidity ^0.4.2;
+import "@chainlink/contracts/src/v0.6/dev/AggregatorProxy.sol";
 
-import "@chainlink/contracts/src/v0.4/interfaces/AggregatorInterface.sol";
-
-contract OracleBuilder {
-
-  constructor() {}
-  function makeOracle(address referenceDataAddress) public returns (uint256) {
-    let oracle = new Oracle(referenceDataAddress);
-    return oracle
+contract OracleFactory {
+  function makeOracle(string name, string symbol, address referenceDataAddress) public returns (address) {
+    return new Oracle(name, symbol, referenceDataAddress);
   }
 }
 
 contract Oracle {
+  string name;
+  string symbol;
   AggregatorInterface internal ref;
 
-  constructor(address _aggregator) public {
-    ref = AggregatorInterface(_aggregator);
+  constructor(string _name, string _symbol, address _aggregator) public {
+    ref = AggregatorProxy(_aggregator);
+    name = _name;
+    symbol = _symbol;
   }
 
   function getLatestAnswer() public view returns (int256) {

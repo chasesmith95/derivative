@@ -1,12 +1,11 @@
 pragma solidity >=0.4.22 <0.7.0;
-//pragma solidity ^0.4.2;
-import "@openzeppelin/contracts/token/ERC777/ERC777.sol";
+import "@openzeppelin/contracts/deploy-ready/ERC20MinterPauser.sol";
 
-contract DerivativeToken is ERC777 {
-  constructor(string name, string symbol, address[] memory defaultOperators) public {
-      ERC777(name, symbol, defaultOperators);
+contract DerivativeToken is ERC20MinterPauser {
+  constructor(string memory name, string memory symbol) public {
+      ERC20MinterPauser(name, symbol);
   }
-  function mint(address account, uint256 amount) onlyOwner public {
-    _mint(account, amount);
+  function mintToken(address account, uint256 amount) public {
+    mint(account, amount);
   }
 }

@@ -25,6 +25,8 @@ contract PayoutContract {
     return ABDKMath64x64.divi(top, bottom);
   }
 
-  function payoutFunction(int256 normalizedAssetChange) public returns (int256);
+  function payoutFunction(int256 normalizedAssetChange) public returns (int256) {
+    return normalizedAssetChange;
+  }
 
 }

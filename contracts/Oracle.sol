@@ -3,7 +3,7 @@ pragma solidity >=0.4.22 <0.7.0;
 import "@chainlink/contracts/src/v0.6/dev/AggregatorProxy.sol";
 
 contract OracleFactory {
-  function makeOracle(string name, string symbol, address referenceDataAddress) public returns (address) {
+  function makeOracle(string memory name, string memory symbol, address referenceDataAddress) public returns (address) {
     return new Oracle(name, symbol, referenceDataAddress);
   }
 }
@@ -13,7 +13,7 @@ contract Oracle {
   string symbol;
   AggregatorInterface internal ref;
 
-  constructor(string _name, string _symbol, address _aggregator) public {
+  constructor(string memory _name, string memory _symbol, address _aggregator) public {
     ref = AggregatorProxy(_aggregator);
     name = _name;
     symbol = _symbol;

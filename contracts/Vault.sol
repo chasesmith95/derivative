@@ -1,14 +1,15 @@
 pragma solidity >=0.4.22 <0.7.0;
 //pragma solidity ^0.4.2;
 import "./Oracle.sol";
-import "./DerivativeToken.sol";
+//import "./DerivativeToken.sol";
 import "./PayoutContract.sol";
 import "./lib/ABDKMath64x64.sol";
+import "@openzeppelin/contracts/deploy-ready/ERC20MinterPauser.sol";
 //import "github.com/Arachnid/solidity-stringutils/strings.sol";
 
 contract Vault {
     enum VaultState { SETTLING, TRADING, ISSUING }
-
+    address owner;
     string name;
     string symbol;
     //
@@ -17,7 +18,6 @@ contract Vault {
     address payoutContract;
     address collateralToken; //0xdac17f958d2ee523a2206206994597c13d831ec7
     int256 vaultIssuanceFee;
-
 
     //uint256 activationTime; //seconds
     //    uint256 preIssuanceDuration;
@@ -42,7 +42,7 @@ contract Vault {
     int256 settlementWeight; //WT
 
       //modifiers
-      modifier onlyOwner { require(msg.sender == this.owner, "Function can only be run by the owner of this contract.");
+      modifier onlyOwner { require(msg.sender == owner, "Function can only be run by the owner of this contract.");
           _;
       }
 
@@ -77,6 +77,7 @@ contract Vault {
      * @param {probability, settlementTime,
      */
 constructor(string memory _name, string memory _symbol, address _assetOracle, address _collateralOracle, address _payoutContract, int256 _issuanceWeight, address _collateralToken, uint256 _issuanceTime, uint256 _settlementTime, int256 _vaultIssuanceFee) public {
+      owner = msg.sender;
       name = _name;
       symbol = _symbol;
       assetOracle = _assetOracle;
@@ -88,7 +89,7 @@ constructor(string memory _name, string memory _symbol, address _assetOracle, ad
       settlementTime = _settlementTime;
       vaultIssuanceFee = _vaultIssuanceFee;
       this.update();
-  }
+}
 
   function update() public {
     if (block.timestamp <= this.IssuanceTime) {
@@ -102,8 +103,8 @@ constructor(string memory _name, string memory _symbol, address _assetOracle, ad
 
   function activate() notActive internal {
     this.state = VaultState.ACTIVATED;
-    this.longToken = new DerivativeToken(this.concat(this.name,"-long"), this.concat(this.symbol,"-l"), new address[](0));
-    this.shortToken = new DerivativeToken(this.concat(this.name,"-short"), this.concat(this.symbol, "-s"));
+    this.longToken = ERC20MinterPauser(this.concat(this.name,"-long"), this.concat(this.symbol,"-l"), new address[](0));
+    this.shortToken = ERC20MinterPauser(this.concat(this.name,"-short"), this.concat(this.symbol, "-s"));
     emit VaultActivated(this, this.name, this.symbol, this.issuanceTime);
   }
 
@@ -118,8 +119,8 @@ constructor(string memory _name, string memory _symbol, address _assetOracle, ad
       this.receiveToken(this.collateralToken, msg.sender, amount);
       uint256 newAmount = this.collectFees(amount);
       this.totalCollateral += newAmount;
-      this.shortToken.mintToken(msg.sender, newAmount);
-      this.longToken.mintToken(msg.sender, newAmount);
+      this.shortToken.mint(msg.sender, newAmount);
+      this.longToken.mint(msg.sender, newAmount);
       emit DerivativePurchased(msg.sender, amount, newAmount);
     }
 

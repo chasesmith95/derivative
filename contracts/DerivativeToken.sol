@@ -1,4 +1,4 @@
-pragma solidity >=0.4.22 <0.7.0;
+/* pragma solidity >=0.4.22 <0.7.0;
 import "@openzeppelin/contracts/deploy-ready/ERC20MinterPauser.sol";
 
 contract DerivativeToken is ERC20MinterPauser {
@@ -6,6 +6,6 @@ contract DerivativeToken is ERC20MinterPauser {
       ERC20MinterPauser(name, symbol);
   }
   function mintToken(address account, uint256 amount) public {
-    mint(account, amount);
+    this._mint(account, amount);
   }
-}
+} */

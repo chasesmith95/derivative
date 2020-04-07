@@ -1,15 +1,13 @@
 pragma solidity >=0.4.22 <0.7.0;
-//pragma solidity ^0.4.2;
 import "./lib/ABDKMath64x64.sol";
 
 
-//Abstract class
 contract PayoutContract {
 
   function calculateWeights(uint256 initialWeight, uint256 startingAssetPrice, uint256 endingAssetPrice, uint256 startingCollateralPrice, uint256 endingCollateralPrice) public returns (uint256) {
     int256 normalizedAssetChange = this.normalizedChange(startingAssetPrice, endingAssetPrice);
     int256 normalizedCollateralChange = this.normalizedChange(startingCollateralPrice, endingCollateralPrice);
-    return this.calculateFinalWeight(initialWeight, normalizedAssetChange, normalizedCollateralChange);  //convert
+    return this.calculateWeight(initialWeight, normalizedAssetChange, normalizedCollateralChange);  //convert Primary vs Complement
   }
 
   function calculateWeight(int256 initialWeight, uint256 normalizedAssetChange, uint256 normalizedCollateralChange) public returns (uint256) {

@@ -4,7 +4,8 @@ import "@chainlink/contracts/src/v0.6/dev/AggregatorProxy.sol";
 
 contract OracleFactory {
   function makeOracle(string memory name, string memory symbol, address referenceDataAddress) public returns (address) {
-    return new Oracle(name, symbol, referenceDataAddress);
+    address c = address(new Oracle(name, symbol, referenceDataAddress));
+    return c;
   }
 }
 

@@ -8,14 +8,15 @@ import "../lib/ABDKMath64x64.sol";
 
 
 contract LeveragedPayoutContract is PayoutContract {
+    //@param
   uint256 leverage;
 
   constructor(uint256 assetLeverage) public {
     leverage = assetLeverage;
   }
 
-  function payoutFunction(int256 normalizedAssetChange) public returns (int256) {
-    return normalizedAssetChange * leverage; //multiply
+  function payoutFunction(uint256 normalizedAssetChange) public virtual override returns (uint256) {
+    return ABDKMath64x64.mulu(int128(normalizedAssetChange), leverage);
   }
 
 }

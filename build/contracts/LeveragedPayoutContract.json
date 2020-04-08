@@ -1,0 +1,1067 @@
+{
+  "contractName": "LeveragedPayoutContract",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "assetLeverage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "initialWeight",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_normalizedAssetChange",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_normalizedCollateralChange",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateWeight",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "initialWeight",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startingAssetPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endingAssetPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startingCollateralPrice",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "endingCollateralPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "calculateWeights",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "start",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "finish",
+          "type": "uint256"
+        }
+      ],
+      "name": "normalizedChange",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "normalizedAssetChange",
+          "type": "uint256"
+        }
+      ],
+      "name": "payoutFunction",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.6.2+commit.bacdbe57\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"assetLeverage\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"initialWeight\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_normalizedAssetChange\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_normalizedCollateralChange\",\"type\":\"uint256\"}],\"name\":\"calculateWeight\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"initialWeight\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startingAssetPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"endingAssetPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startingCollateralPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"endingCollateralPrice\",\"type\":\"uint256\"}],\"name\":\"calculateWeights\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"start\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"finish\",\"type\":\"uint256\"}],\"name\":\"normalizedChange\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"normalizedAssetChange\",\"type\":\"uint256\"}],\"name\":\"payoutFunction\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/chasesmith/projects/derivative/contracts/PayoutContracts/LeveragedPayoutContract.sol\":\"LeveragedPayoutContract\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/chasesmith/projects/derivative/contracts/PayoutContract.sol\":{\"keccak256\":\"0xb60c0ff7a8d78a0981c0c5e37931c764e6ee6fc7df01c5525876b5f6875f3293\",\"urls\":[\"bzz-raw://a667358dd5f5ad9d8972290647789bd555fe3aa0e2ec695db5472474a45c2cfe\",\"dweb:/ipfs/QmedYJnQKXPi9s2RgkLBE6VGtTC6frkmhcEz1Vq2ZZvnj5\"]},\"/Users/chasesmith/projects/derivative/contracts/PayoutContracts/LeveragedPayoutContract.sol\":{\"keccak256\":\"0xc84158cabdaa311449759cdc0ad3fe156b62827eae9ed08f6dff7f54af29d7d8\",\"urls\":[\"bzz-raw://574a55f5a90aa455dcef189ab53b7be306fcf1b12d6c4b99aebc10e2cae4241b\",\"dweb:/ipfs/QmZ2xYH3EDLekyBcXKVuKP3tefAVSacomLUiPMUG2KYZCW\"]},\"/Users/chasesmith/projects/derivative/contracts/lib/ABDKMath64x64.sol\":{\"keccak256\":\"0x326eebc530b1b00f8fe4c04a4f2719319426517649bae328d62dbfe709ace09c\",\"urls\":[\"bzz-raw://5d6faffcff713eaa412c97c95e72aa9e07cf052e07ee190f23e6269290e1a2e4\",\"dweb:/ipfs/QmW711JnXfAzvZh4j1frFym7LmZRNUpUKWm1zX6JMZkAFE\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516105d13803806105d18339818101604052602081101561003357600080fd5b505160005561058a806100476000396000f3fe608060405234801561001057600080fd5b506004361061004c5760003560e01c80631836639e146100515780636be02bd3146100985780638c28c795146100c1578063e18d9790146100e4575b600080fd5b610086600480360360a081101561006757600080fd5b5080359060208101359060408101359060608101359060800135610101565b60408051918252519081900360200190f35b610086600480360360608110156100ae57600080fd5b5080359060208101359060400135610280565b610086600480360360408110156100d757600080fd5b5080359060200135610321565b610086600480360360208110156100fa57600080fd5b5035610344565b600080306001600160a01b0316638c28c79587876040518363ffffffff1660e01b81526004018083815260200182815260200192505050602060405180830381600087803b15801561015257600080fd5b505af1158015610166573d6000803e3d6000fd5b505050506040513d602081101561017c57600080fd5b505160408051638c28c79560e01b8152600481018790526024810186905290519192506000913091638c28c79591604480830192602092919082900301818787803b1580156101ca57600080fd5b505af11580156101de573d6000803e3d6000fd5b505050506040513d60208110156101f457600080fd5b505160408051636be02bd360e01b8152600481018b9052602481018590526044810183905290519192503091636be02bd3916064808201926020929091908290030181600087803b15801561024857600080fd5b505af115801561025c573d6000803e3d6000fd5b505050506040513d602081101561027257600080fd5b505198975050505050505050565b600080306001600160a01b031663e18d9790856040518263ffffffff1660e01b815260040180828152602001915050602060405180830381600087803b1580156102c957600080fd5b505af11580156102dd573d6000803e3d6000fd5b505050506040513d60208110156102f357600080fd5b5051600190810191508301600061030a8383610352565b90506103168188610399565b979650505050505050565b6000828203836103396103348383610352565b610401565b925050505b92915050565b600061033e82600054610399565b60008161035e57600080fd5b600061036a848461040a565b90506f7fffffffffffffffffffffffffffffff6001600160801b038216111561039257600080fd5b9392505050565b6000816103a85750600061033e565b600083600f0b12156103b957600080fd5b600f83900b6001600160801b038316810260401c90608084901c026001600160c01b038111156103e857600080fd5b60401b81198111156103f957600080fd5b019392505050565b600f0b60401b90565b60008161041657600080fd5b60006001600160c01b03841161043b5782604085901b8161043357fe5b049050610540565b60c084811c6401000000008110610454576020918201911c5b620100008110610466576010918201911c5b6101008110610477576008918201911c5b60108110610487576004918201911c5b60048110610497576002918201911c5b600281106104a6576001820191505b60bf820360018603901c6001018260ff0387901b816104c157fe5b0492506001600160801b038311156104d857600080fd5b608085901c83026001600160801b038616840260c088901c604089901b82811015610504576001820391505b608084901b9290038281101561051b576001820391505b829003608084901c821461052b57fe5b88818161053457fe5b04870196505050505050505b6001600160801b0381111561039257600080fdfea26469706673582212202c0cb76f14c95c8b128575a23653ab6ad4de7fac6bc737adeec3d19555b14db864736f6c63430006020033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004c5760003560e01c80631836639e146100515780636be02bd3146100985780638c28c795146100c1578063e18d9790146100e4575b600080fd5b610086600480360360a081101561006757600080fd5b5080359060208101359060408101359060608101359060800135610101565b60408051918252519081900360200190f35b610086600480360360608110156100ae57600080fd5b5080359060208101359060400135610280565b610086600480360360408110156100d757600080fd5b5080359060200135610321565b610086600480360360208110156100fa57600080fd5b5035610344565b600080306001600160a01b0316638c28c79587876040518363ffffffff1660e01b81526004018083815260200182815260200192505050602060405180830381600087803b15801561015257600080fd5b505af1158015610166573d6000803e3d6000fd5b505050506040513d602081101561017c57600080fd5b505160408051638c28c79560e01b8152600481018790526024810186905290519192506000913091638c28c79591604480830192602092919082900301818787803b1580156101ca57600080fd5b505af11580156101de573d6000803e3d6000fd5b505050506040513d60208110156101f457600080fd5b505160408051636be02bd360e01b8152600481018b9052602481018590526044810183905290519192503091636be02bd3916064808201926020929091908290030181600087803b15801561024857600080fd5b505af115801561025c573d6000803e3d6000fd5b505050506040513d602081101561027257600080fd5b505198975050505050505050565b600080306001600160a01b031663e18d9790856040518263ffffffff1660e01b815260040180828152602001915050602060405180830381600087803b1580156102c957600080fd5b505af11580156102dd573d6000803e3d6000fd5b505050506040513d60208110156102f357600080fd5b5051600190810191508301600061030a8383610352565b90506103168188610399565b979650505050505050565b6000828203836103396103348383610352565b610401565b925050505b92915050565b600061033e82600054610399565b60008161035e57600080fd5b600061036a848461040a565b90506f7fffffffffffffffffffffffffffffff6001600160801b038216111561039257600080fd5b9392505050565b6000816103a85750600061033e565b600083600f0b12156103b957600080fd5b600f83900b6001600160801b038316810260401c90608084901c026001600160c01b038111156103e857600080fd5b60401b81198111156103f957600080fd5b019392505050565b600f0b60401b90565b60008161041657600080fd5b60006001600160c01b03841161043b5782604085901b8161043357fe5b049050610540565b60c084811c6401000000008110610454576020918201911c5b620100008110610466576010918201911c5b6101008110610477576008918201911c5b60108110610487576004918201911c5b60048110610497576002918201911c5b600281106104a6576001820191505b60bf820360018603901c6001018260ff0387901b816104c157fe5b0492506001600160801b038311156104d857600080fd5b608085901c83026001600160801b038616840260c088901c604089901b82811015610504576001820391505b608084901b9290038281101561051b576001820391505b829003608084901c821461052b57fe5b88818161053457fe5b04870196505050505050505b6001600160801b0381111561039257600080fdfea26469706673582212202c0cb76f14c95c8b128575a23653ab6ad4de7fac6bc737adeec3d19555b14db864736f6c63430006020033",
+  "sourceMap": "171:347:2:-:0;;;260:77;8:9:-1;5:2;;;30:1;27;20:12;5:2;260:77:2;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;260:77:2;308:8;:24;171:347;;;;;;",
+  "deployedSourceMap": "171:347:2:-:0;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;171:347:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;107:538:1;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;-1:-1;107:538:1;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;649:418;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;649:418:1;;;;;;;;;;;;:::i;1071:236::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1071:236:1;;;;;;;:::i;341:174:2:-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;341:174:2;;:::i;107:538:1:-;290:7;305:29;337:4;-1:-1:-1;;;;;337:21:1;;359:18;379:16;337:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;337:59:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;337:59:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;337:59:1;439:69;;;-1:-1:-1;;;439:69:1;;;;;;;;;;;;;;;;337:59;;-1:-1:-1;402:34:1;;439:4;;:21;;:69;;;;;337:59;;439:69;;;;;;;402:34;439:4;:69;;;5:2:-1;;;;30:1;27;20:12;5:2;439:69:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;439:69:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;439:69:1;521:86;;;-1:-1:-1;;;521:86:1;;;;;;;;;;;;;;;;;;;;;;439:69;;-1:-1:-1;521:4:1;;:20;;:86;;;;;439:69;;521:86;;;;;;;;-1:-1:-1;521:4:1;:86;;;5:2:-1;;;;30:1;27;20:12;5:2;521:86:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;521:86:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;521:86:1;;107:538;-1:-1:-1;;;;;;;;107:538:1:o;649:418::-;782:7;797:11;816:4;-1:-1:-1;;;;;816:19:1;;836:22;816:43;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;816:43:1;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;816:43:1;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;816:43:1;812:1;:47;;;;-1:-1:-1;894:31:1;;876:14;957:31;812:47;894:31;957:18;:31::i;:::-;942:46;;1011:40;1030:5;1037:13;1011:18;:40::i;:::-;1004:47;649:418;-1:-1:-1;;;;;;;649:418:1:o;1071:236::-;1144:7;1173:14;;;1182:5;1245:56;1269:31;1173:14;1182:5;1269:18;:31::i;:::-;1245:23;:56::i;:::-;1230:72;;;;1071:236;;;;;:::o;341:174:2:-;429:7;451:59;477:21;501:8;;451:18;:59::i;7745:193:7:-;7805:6;7826;7817:16;;;;;;7837:14;7854:12;7861:1;7864;7854:5;:12::i;:::-;7837:29;-1:-1:-1;901:34:7;-1:-1:-1;;;;;7879:29:7;;;;7870:39;;;;;;7928:6;7745:193;-1:-1:-1;;;7745:193:7:o;5591:435::-;5650:7;5667:6;5663:20;;-1:-1:-1;5682:1:7;5675:8;;5663:20;5702:1;5697;:6;;;;5688:16;;;;;;5723:11;;;;-1:-1:-1;;;;;5738:38:7;;5723:54;;5782:2;5722:62;;5821:3;5816:8;;;5801:24;-1:-1:-1;;;;;5839:56:7;;;5830:66;;;;;;5907:2;5900:9;5933:71;;5923:81;;;5914:91;;;;;;6016:7;;5591:435;-1:-1:-1;;;5591:435:7:o;2853:91::-;2925:10;;2939:2;2925:16;;2853:91::o;19389:1158::-;19449:7;19471:6;19462:16;;;;;;19483:14;-1:-1:-1;;;;;19506:1:7;:55;19502:957;;19588:1;19582:2;19577:1;:7;;19576:13;;;;;;19567:22;;19502:957;;;19618:3;19640:8;;;19664:11;19658:17;;19654:48;;19686:2;19690:9;;;;19679;19654:48;19717:7;19711:2;:13;19707:44;;19735:2;19739:9;;;;19728;19707:44;19766:5;19760:2;:11;19756:40;;19782:1;19785:8;;;;19775;19756:40;19811:4;19805:2;:10;19801:39;;19826:1;19829:8;;;;19819;19801:39;19855:3;19849:2;:9;19845:38;;19869:1;19872:8;;;;19862;19845:38;19898:3;19892:2;:9;19888:23;;19910:1;19903:8;;;;19888:23;19995:3;19989;:9;19984:1;19980;:5;:18;;20002:1;19979:24;19971:3;19965;:9;19960:1;:14;;19959:45;;;;;;19950:54;;-1:-1:-1;;;;;20019:6:7;:44;;20010:54;;;;;;20099:3;20094:8;;;20084:19;;-1:-1:-1;;;;;20132:38:7;;20122:49;;20196:3;20191:8;;;20223:2;20218:7;;;20236;;;20232:20;;;20251:1;20245:7;;;;20232:20;20320:3;20314:9;;;;20258:8;;20333:7;;;20329:20;;;20348:1;20342:7;;;;20329:20;20355:8;;;20427:3;20421:9;;;20415:15;;20407:24;;;;20453:1;20448:2;:6;;;;;;20438:16;;;;19502:957;;;;;;;-1:-1:-1;;;;;20472:6:7;:44;;20463:54;;;;",
+  "source": "pragma solidity >=0.4.22 <0.7.0;\n//pragma solidity ^0.4.2;\nimport \"../PayoutContract.sol\";\nimport \"../lib/ABDKMath64x64.sol\";\n//import \"../PayoutContractFactory.sol\";\n\n\n\n\ncontract LeveragedPayoutContract is PayoutContract {\n    //@param\n  uint256 leverage;\n\n  constructor(uint256 assetLeverage) public {\n    leverage = assetLeverage;\n  }\n\n  function payoutFunction(uint256 normalizedAssetChange) public virtual override returns (uint256) {\n    return ABDKMath64x64.mulu(int128(normalizedAssetChange), leverage);\n  }\n\n}\n",
+  "sourcePath": "/Users/chasesmith/projects/derivative/contracts/PayoutContracts/LeveragedPayoutContract.sol",
+  "ast": {
+    "absolutePath": "/Users/chasesmith/projects/derivative/contracts/PayoutContracts/LeveragedPayoutContract.sol",
+    "exportedSymbols": {
+      "LeveragedPayoutContract": [
+        298
+      ]
+    },
+    "id": 299,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 263,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:32:2"
+      },
+      {
+        "absolutePath": "/Users/chasesmith/projects/derivative/contracts/PayoutContract.sol",
+        "file": "../PayoutContract.sol",
+        "id": 264,
+        "nodeType": "ImportDirective",
+        "scope": 299,
+        "sourceUnit": 262,
+        "src": "59:31:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/chasesmith/projects/derivative/contracts/lib/ABDKMath64x64.sol",
+        "file": "../lib/ABDKMath64x64.sol",
+        "id": 265,
+        "nodeType": "ImportDirective",
+        "scope": 299,
+        "sourceUnit": 6773,
+        "src": "91:34:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 266,
+              "name": "PayoutContract",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 261,
+              "src": "207:14:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PayoutContract_$261",
+                "typeString": "contract PayoutContract"
+              }
+            },
+            "id": 267,
+            "nodeType": "InheritanceSpecifier",
+            "src": "207:14:2"
+          }
+        ],
+        "contractDependencies": [
+          261
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 298,
+        "linearizedBaseContracts": [
+          298,
+          261
+        ],
+        "name": "LeveragedPayoutContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 269,
+            "name": "leverage",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 298,
+            "src": "239:16:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 268,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "239:7:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 278,
+              "nodeType": "Block",
+              "src": "302:35:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 276,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 274,
+                      "name": "leverage",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 269,
+                      "src": "308:8:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 275,
+                      "name": "assetLeverage",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 271,
+                      "src": "319:13:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "308:24:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 277,
+                  "nodeType": "ExpressionStatement",
+                  "src": "308:24:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 279,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 272,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 271,
+                  "name": "assetLeverage",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 279,
+                  "src": "272:21:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 270,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "272:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "271:23:2"
+            },
+            "returnParameters": {
+              "id": 273,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "302:0:2"
+            },
+            "scope": 298,
+            "src": "260:77:2",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "baseFunctions": [
+              260
+            ],
+            "body": {
+              "id": 296,
+              "nodeType": "Block",
+              "src": "438:77:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 291,
+                            "name": "normalizedAssetChange",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 281,
+                            "src": "477:21:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "id": 290,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "470:6:2",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_int128_$",
+                            "typeString": "type(int128)"
+                          },
+                          "typeName": {
+                            "id": 289,
+                            "name": "int128",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "470:6:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": null,
+                              "typeString": null
+                            }
+                          }
+                        },
+                        "id": 292,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "470:29:2",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int128",
+                          "typeString": "int128"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 293,
+                        "name": "leverage",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 269,
+                        "src": "501:8:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_int128",
+                          "typeString": "int128"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 287,
+                        "name": "ABDKMath64x64",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6772,
+                        "src": "451:13:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_ABDKMath64x64_$6772_$",
+                          "typeString": "type(library ABDKMath64x64)"
+                        }
+                      },
+                      "id": 288,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "mulu",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 4577,
+                      "src": "451:18:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_int128_$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (int128,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 294,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "451:59:2",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 286,
+                  "id": 295,
+                  "nodeType": "Return",
+                  "src": "444:66:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "e18d9790",
+            "id": 297,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "payoutFunction",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 283,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "411:8:2"
+            },
+            "parameters": {
+              "id": 282,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 281,
+                  "name": "normalizedAssetChange",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 297,
+                  "src": "365:29:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 280,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "364:31:2"
+            },
+            "returnParameters": {
+              "id": 286,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 285,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 297,
+                  "src": "429:7:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 284,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "429:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "428:9:2"
+            },
+            "scope": 298,
+            "src": "341:174:2",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 299,
+        "src": "171:347:2"
+      }
+    ],
+    "src": "0:519:2"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/chasesmith/projects/derivative/contracts/PayoutContracts/LeveragedPayoutContract.sol",
+    "exportedSymbols": {
+      "LeveragedPayoutContract": [
+        298
+      ]
+    },
+    "id": 299,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 263,
+        "literals": [
+          "solidity",
+          ">=",
+          "0.4",
+          ".22",
+          "<",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:32:2"
+      },
+      {
+        "absolutePath": "/Users/chasesmith/projects/derivative/contracts/PayoutContract.sol",
+        "file": "../PayoutContract.sol",
+        "id": 264,
+        "nodeType": "ImportDirective",
+        "scope": 299,
+        "sourceUnit": 262,
+        "src": "59:31:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/chasesmith/projects/derivative/contracts/lib/ABDKMath64x64.sol",
+        "file": "../lib/ABDKMath64x64.sol",
+        "id": 265,
+        "nodeType": "ImportDirective",
+        "scope": 299,
+        "sourceUnit": 6773,
+        "src": "91:34:2",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 266,
+              "name": "PayoutContract",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 261,
+              "src": "207:14:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_PayoutContract_$261",
+                "typeString": "contract PayoutContract"
+              }
+            },
+            "id": 267,
+            "nodeType": "InheritanceSpecifier",
+            "src": "207:14:2"
+          }
+        ],
+        "contractDependencies": [
+          261
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 298,
+        "linearizedBaseContracts": [
+          298,
+          261
+        ],
+        "name": "LeveragedPayoutContract",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 269,
+            "name": "leverage",
+            "nodeType": "VariableDeclaration",
+            "overrides": null,
+            "scope": 298,
+            "src": "239:16:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 268,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "239:7:2",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 278,
+              "nodeType": "Block",
+              "src": "302:35:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 276,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 274,
+                      "name": "leverage",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 269,
+                      "src": "308:8:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 275,
+                      "name": "assetLeverage",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 271,
+                      "src": "319:13:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "308:24:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 277,
+                  "nodeType": "ExpressionStatement",
+                  "src": "308:24:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 279,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "overrides": null,
+            "parameters": {
+              "id": 272,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 271,
+                  "name": "assetLeverage",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 279,
+                  "src": "272:21:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 270,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "272:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "271:23:2"
+            },
+            "returnParameters": {
+              "id": 273,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "302:0:2"
+            },
+            "scope": 298,
+            "src": "260:77:2",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "baseFunctions": [
+              260
+            ],
+            "body": {
+              "id": 296,
+              "nodeType": "Block",
+              "src": "438:77:2",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "id": 291,
+                            "name": "normalizedAssetChange",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 281,
+                            "src": "477:21:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_uint256",
+                              "typeString": "uint256"
+                            }
+                          ],
+                          "id": 290,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "470:6:2",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_int128_$",
+                            "typeString": "type(int128)"
+                          },
+                          "typeName": {
+                            "id": 289,
+                            "name": "int128",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "470:6:2",
+                            "typeDescriptions": {
+                              "typeIdentifier": null,
+                              "typeString": null
+                            }
+                          }
+                        },
+                        "id": 292,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "470:29:2",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_int128",
+                          "typeString": "int128"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 293,
+                        "name": "leverage",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 269,
+                        "src": "501:8:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_int128",
+                          "typeString": "int128"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 287,
+                        "name": "ABDKMath64x64",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 6772,
+                        "src": "451:13:2",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_ABDKMath64x64_$6772_$",
+                          "typeString": "type(library ABDKMath64x64)"
+                        }
+                      },
+                      "id": 288,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "mulu",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 4577,
+                      "src": "451:18:2",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$_t_int128_$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (int128,uint256) pure returns (uint256)"
+                      }
+                    },
+                    "id": 294,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "451:59:2",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 286,
+                  "id": 295,
+                  "nodeType": "Return",
+                  "src": "444:66:2"
+                }
+              ]
+            },
+            "documentation": null,
+            "functionSelector": "e18d9790",
+            "id": 297,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "payoutFunction",
+            "nodeType": "FunctionDefinition",
+            "overrides": {
+              "id": 283,
+              "nodeType": "OverrideSpecifier",
+              "overrides": [],
+              "src": "411:8:2"
+            },
+            "parameters": {
+              "id": 282,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 281,
+                  "name": "normalizedAssetChange",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 297,
+                  "src": "365:29:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 280,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "365:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "364:31:2"
+            },
+            "returnParameters": {
+              "id": 286,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 285,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "overrides": null,
+                  "scope": 297,
+                  "src": "429:7:2",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 284,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "429:7:2",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "428:9:2"
+            },
+            "scope": 298,
+            "src": "341:174:2",
+            "stateMutability": "nonpayable",
+            "virtual": true,
+            "visibility": "public"
+          }
+        ],
+        "scope": 299,
+        "src": "171:347:2"
+      }
+    ],
+    "src": "0:519:2"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.6.2+commit.bacdbe57.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-04-08T02:12:58.305Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

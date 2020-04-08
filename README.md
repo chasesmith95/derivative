@@ -26,6 +26,6 @@ The Vault acts as the facilitator and organizer of derivative contracts, it can 
 ### Oracle Contracts   
 The oracle contract is completely responsible for the getting accurate prices. We utilize the chainlink Aggregator API, but it is not required, as long as the Oracle matches the interface.
 
-### Payout Contract
+### Payout Contracts
 The payout contract determines the weighting of the shorts and the longs of the derivative. The only function that is used by the Vault contract, is `calculateWeights()` at the settlement date.
 The only function that is changed in the payout contract is the payoff function itself. These payoff functions can take different forms, and act as continuous functions on intervals.

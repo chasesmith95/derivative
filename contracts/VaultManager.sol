@@ -3,16 +3,19 @@ pragma solidity >=0.4.22 <0.7.0;
 import "./Oracle.sol";
 import "./Vault.sol";
 import "./PayoutContract.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract VaultManager {
+  //@param
   address owner;
   address[] payoutContracts;
   address[] oracles;
   uint256 vaultCreationFee;
-  address collateralToken;
+  ERC20 collateralToken;
+  uint256 accumulatedVaultFees;
 
   //modifiers
-  modifier onlyOwner { require(msg.sender == this.owner, "Function can only be run by the owner of this contract.");
+  modifier onlyOwner { require(msg.sender == owner, "Function can only be run by the owner of this contract.");
       _;
   }
 
@@ -25,7 +28,7 @@ contract VaultManager {
     event PayoutContractAdded(address payoutContract);
 
 
-  constructor(address _collateralToken, uint256 _vaultCreationFee) public {
+  constructor(ERC20 _collateralToken, uint256 _vaultCreationFee) public {
     owner = msg.sender;
     vaultCreationFee = _vaultCreationFee;
     collateralToken = _collateralToken;
@@ -50,7 +53,7 @@ contract VaultManager {
       this.oracles.pop(oracle);
     } */
     function getOracles() public view returns (address[] memory) {
-      return this.oracles;
+      return oracles;
     }
 
   /* function addPayoutContract(address payoutContract) onlyOwner {
@@ -60,18 +63,18 @@ contract VaultManager {
     this.payoutContracts[payoutContract] = false;
   } */
   function getPayoutContracts() public view returns (address[] memory) {
-    return this.payoutContracts;
+    return payoutContracts;
   }
 
-  function receiveTokens(address contractAddress, address from, uint256 amount) internal returns (bool) {
-    require(contractAddress.allowance(from, this) >= amount);
-    require(contractAddress.transferFrom(from, this, amount));
+  function receiveTokens(ERC20 contractAddress, address from, uint256 amount) internal returns (bool) {
+    require(contractAddress.allowance(from, address(this)) >= amount);
+    require(contractAddress.transferFrom(from, address(this), amount));
   }
 
   function withdrawFees(uint256 amount) public onlyOwner {
-       if (this.accumulatedVaultFees >= amount) {
-         this.collateralToken.transferFrom(this, this.owner, amount);
-         this.accumulatedVaultFees -= amount;
+       if (accumulatedVaultFees >= amount) {
+         collateralToken.transferFrom(address(this), owner, amount);
+         accumulatedVaultFees -= amount;
        }
      }
   }
